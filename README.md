@@ -3,12 +3,10 @@
 
 This is a simple animated login component which is built on top of react native animated api. This uses native driver for animations to acheive smooth animation.
 
-#
-#
+
 ### Installation
 `npm install --save react-native-animated-login`
-#
-#
+
 
 ### Example
 import `react-native-animated-module` into your component
@@ -33,10 +31,9 @@ Inside your component render, use `react-native-animated-module` api to render v
 />
 ```
     
-#
-#
+
 ### Props 
-#
+
  **Props** | **Type** | **Required** | **Description**
 --- | --- | --- | ---
 logo | PropTypes.node | false | Icon or image to be rendered
