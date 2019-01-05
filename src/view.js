@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, TouchableNativeFeedback, Animated, Image,TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text, StatusBar, TouchableNativeFeedback, Dimensions, Animated, Image,TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import Styles from './styles';
 import React from 'react'
 import propTypes from 'prop-types';
@@ -22,7 +22,7 @@ const UiLayer = ({
         titleColor='#fff'
         //end
     }) => {
-    const { scaleX, scaleY, borderRadius, translateY, opacityIn, opacityOut } = animationSpec
+    const { scaleX, scaleY, borderRadius, translateY, opacityIn, opacityOut, scaledBoxOpacity } = animationSpec
     return(
         <View style={[Styles.ViewStyle,{backgroundColor:primaryColor}]}>
             <StatusBar backgroundColor={primaryColor} barStyle="light-content"  />
@@ -32,8 +32,27 @@ const UiLayer = ({
                     <Text style={[Styles.TitleStyle,{color:titleColor}]} >{title}</Text>
                 </Animated.View>
                 <View style={Styles.AnimationView}>
-                    {showButton 
-                        ?
+
+                    <Animated.View 
+                        style={ [Styles.FormView,{backgroundColor:accentColor,opacity:opacityIn}]}
+                    >
+                        <Animated.View>
+                            <FormComponent />
+                        </Animated.View>
+                        <Animated.View style={Styles.SubmitButton}>
+                            <TouchableOpacity 
+                                activeOpacity={0.8} 
+                                onPress={onSubmit}
+                                
+                            >
+                                <Animated.View style={[Styles.SubmitInnerButton,{backgroundColor:submitButtonColor}]}>
+                                    {hasSubmitted ? <ActivityIndicator size="large" color="#fff" /> : <Text style={[Styles.ButtonText,{color:'#fff'}]}>DONE</Text> }
+                                </Animated.View>
+                            </TouchableOpacity>
+                        </Animated.View>
+                    </Animated.View>
+
+                    <Animated.View style={[Styles.InitialButton,{opacity:scaledBoxOpacity}]}>
                         <TouchableOpacity activeOpacity={1} onPress={onPress}>
                             <Animated.View 
                                 style={[Styles.ButtonStyle,{
@@ -51,22 +70,7 @@ const UiLayer = ({
                                 <Animated.Text style={[Styles.ButtonText,{opacity:opacityOut,backgroundColor:accentColor,color:submitTextColor}]}>{submitText}</Animated.Text>
                             </Animated.View>
                         </TouchableOpacity>
-                        :
-                        <Animated.View 
-                            style={ [Styles.FormView,{backgroundColor:accentColor}]}
-                        >
-                            <Animated.View style={{opacity:opacityIn}}>
-                                <FormComponent />
-                            </Animated.View>
-                            <Animated.View style={Styles.SubmitButton}>
-                                <TouchableOpacity activeOpacity={0.8} onPress={onSubmit}>
-                                    <Animated.View style={[Styles.SubmitInnerButton,{opacity:opacityIn,backgroundColor:submitButtonColor}]}>
-                                        {hasSubmitted ? <ActivityIndicator size="large" color="#fff" /> : <Text style={[Styles.ButtonText,{color:'#fff'}]}>DONE</Text> }
-                                    </Animated.View>
-                                </TouchableOpacity>
-                            </Animated.View>
-                        </Animated.View>
-                    }
+                    </Animated.View>
                 </View>
             </View>
         </View>

@@ -16,15 +16,50 @@ class Login extends Component{
         this.borderRadius = new Animated.Value(0)
         this.translateY = new Animated.Value(0)
         this.opacityOut = new Animated.Value(0)
+        this.scaledBoxOpacity = new Animated.Value(0)
         this.opacityIn = new Animated.Value(0)
         this.scaleButton = new Animated.Value(0)
 
         this.widthScale = (Dimensions.get('window').width - 40)/130
-        this.heightScale = 300/50;
+        this.heightScale = 6;
+        this.showBackAnimation = false;
     }
 
     componentDidMount(){
         console.log(this.props)
+        BackHandler.addEventListener('hardwareBackPress',this.handleBack)
+    }
+
+    componentWillUnmount(){
+        this.showBackAnimation = null;
+        BackHandler.removeEventListener('hardwareBackPress',this.handleBack)
+    }
+
+    handleBack = () => {
+        if(this.showBackAnimation){
+            Animated.parallel([
+                this.createParellelAnimation({property:this.opacityIn,toValue:0,duration:200}),
+                this.createParellelAnimation({property:this.scaledBoxOpacity,toValue:0,duration:100}),
+                this.createParellelAnimation({property:this.scaleX,toValue:0,duration:200,delay:100}),
+                this.createParellelAnimation({property:this.scaleY,toValue:0,duration:200,delay:100}),
+                this.createParellelAnimation({property:this.borderRadius,toValue:0,duration:200,delay:100}),
+                this.createParellelAnimation({property:this.translateY,toValue:0,duration:200,delay:100}),
+            ]).start((e)=>{
+                Animated.timing(
+                    this.opacityOut,
+                    {
+                        toValue:0,
+                        duration:100,
+                        useNativeDriver:true
+                    }
+                ).start()
+            })
+            this.showBackAnimation = false;
+            return true
+        }else{
+            this.showBackAnimation = true;
+            return false
+        }
     }
 
 
@@ -42,7 +77,7 @@ class Login extends Component{
         )
     }
 
-    animate = () => {
+    forwardAnimation = () => {
         Animated.timing(
             this.opacityOut,
             {
@@ -58,15 +93,16 @@ class Login extends Component{
                 this.createParellelAnimation({property:this.translateY,toValue:1,duration:200}),
             ]).start((e)=>{
                 if(e.finished){
-                    this.setState({showButton:false},()=>{
-                        Animated.parallel([
-                            this.createParellelAnimation({property:this.opacityIn,toValue:1,duration:100}),
-                            this.createParellelAnimation({property:this.scaleButton,toValue:1,duration:100}),
-                        ]).start()
-                    })
+                    
+                    Animated.parallel([
+                        this.createParellelAnimation({property:this.opacityIn,toValue:1,duration:100}),
+                        this.createParellelAnimation({property:this.scaledBoxOpacity,toValue:1,duration:200})
+                    ]).start()
+                    // })
                 }
             })
         })
+        this.showBackAnimation = true;
     }
 
     render(){
@@ -95,6 +131,10 @@ class Login extends Component{
                 inputRange:[0,1],
                 outputRange:[1,0]
             }),
+            scaledBoxOpacity:this.scaledBoxOpacity.interpolate({
+                inputRange:[0,1],
+                outputRange:[1,0]
+            }),
             scaleButton:this.scaleButton.interpolate({
                 inputRange:[0,1],
                 outputRange:[1,10]
@@ -102,7 +142,7 @@ class Login extends Component{
         }
         return(
             <WrappedComponent 
-                onPress={this.animate}
+                onPress={this.forwardAnimation}
                 {...this.props}
                 showButton={this.state.showButton}
                 animationSpec= {animationSpec}

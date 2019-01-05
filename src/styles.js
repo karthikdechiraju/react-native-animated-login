@@ -20,7 +20,8 @@ const Styles = StyleSheet.create({
     },
     AnimationView:{
         height:400,
-        justifyContent:'flex-end'
+        justifyContent:'flex-end',
+        position:'relative'
     },
     ViewStyle:{
         flex:1
@@ -66,6 +67,16 @@ const Styles = StyleSheet.create({
         fontWeight:'600',
         textAlign:'center',
         fontSize:20
+    },
+    InitialButton:{
+        position:'absolute',
+        zIndex:1,
+        top:250,
+        left:0,
+        elevation:5,
+        height:50,
+        width:(Dimensions.get('window').width - 40),
+        alignItems:'center'
     }
 })
 
