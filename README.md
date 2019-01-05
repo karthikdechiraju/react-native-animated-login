@@ -4,6 +4,10 @@
 This is a simple animated login component which is built on top of react native animated api. This uses native driver for animations to acheive smooth animation.
 
 
+![](demo.gif)
+
+
+
 ### Installation
 `npm install --save react-native-animated-login`
 
