@@ -1,7 +1,7 @@
 # React Native Animated Login
 
 
-This is a simple animated login component which is built on top of react native animated api. This uses native driver for animations to acheive smooth animation.
+This is a simple animated login component which is built on top of react native animated api. This uses native driver to acheive smooth animation with 60fps.
 
 
 ![](demo.gif)
@@ -13,16 +13,16 @@ This is a simple animated login component which is built on top of react native 
 
 
 ### Example
-import `react-native-animated-module` into your component
+import `react-native-animated-login` module into your component
 ```javascript
 import LoginView from 'react-native-animated-login'
 ```
 
-Inside your component render, use `react-native-animated-module` api to render view. 
+Inside your component render, use `react-native-animated-login` api to render view. 
 
 ```javascript
 <LoginView 
-    logo={require('/path/to/you/img.png')} 
+    logo={require('/path/to/your/img.png')} 
     primaryColor="#512DA8"
     accentColor="#fff"
     FormComponent = {viewComponent}
